@@ -6,21 +6,6 @@ on:
 
 
 jobs:
-  auth:
-    name: Auth
-    runs-on: ubuntu-latest
-    steps:
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-        
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
-        
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-        
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -36,7 +21,18 @@ jobs:
 
       - name: Build code
         run: ./scripts/buildprod.sh
-      
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+        
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
       - name: Setup project
         run: gcloud config set project notely-430207 
 
