@@ -17,6 +17,18 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.22'
-      
+
       - name: Build code
         run: ./scripts/buildprod.sh
+
+      - name: Authenticate with GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Use gcloud CLI
+        run: gcloud info
